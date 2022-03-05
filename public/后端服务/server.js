@@ -10,61 +10,17 @@ const db = mysql.createPool({
 });
 const app = express();
 app.use(cors());
-app.get("/user", (req, res) => {
+app.get("/searchAll", (req, res) => {
   console.log(req.query);
-  let fruitsList = [{name: "王二", password: "123"}]
-  let usersList;
-  let id = 1000000;
-  let data = [
-    {
-      "uniquekey": "0656b4e6f84bcddebd754d5edb7fb322",
-      "title": "为躲避交警执法给警车装GPS？海口一男子被行政拘留！",
-      "date": "2022-03-05 10:22:00",
-      "category": "头条",
-      "author_name": "人民资讯",
-      "url": "https://mini.eastday.com/mobile/220305102251521708679.html",
-      "thumbnail_pic_s": "https://dfzximg02.dftoutiao.com/news/20220305/20220305102251_292f0ed7f114f0a7ec23c97ff10fc09e_1_mwpm_03201609.jpeg",
-      "thumbnail_pic_s02": "https://dfzximg02.dftoutiao.com/news/20220305/20220305102251_292f0ed7f114f0a7ec23c97ff10fc09e_2_mwpm_03201609.jpeg",
-      "is_content": "1"
-    },
-    {
-      "uniquekey": "6d19c0566e9bc6351413f997546ed7b9",
-      "title": "短信显示“医疗账户”已停止？千万别信！",
-      "date": "2022-03-05 10:17:00",
-      "category": "头条",
-      "author_name": "人民资讯",
-      "url": "https://mini.eastday.com/mobile/220305101754418535028.html",
-      "thumbnail_pic_s": "https://dfzximg02.dftoutiao.com/news/20220305/20220305101754_997ca7003c13194bc085c0d179c36ac9_1_mwpm_03201609.jpeg",
-      "thumbnail_pic_s02": "https://dfzximg02.dftoutiao.com/news/20220305/20220305101754_997ca7003c13194bc085c0d179c36ac9_2_mwpm_03201609.jpeg",
-      "is_content": "1"
-    },
-    {
-      "uniquekey": "93ba29c935239cf7cb855b1ec0ce2ef4",
-      "title": "老人步行27公里迷路，周至民警赶紧联系他的家人",
-      "date": "2022-03-05 10:17:00",
-      "category": "头条",
-      "author_name": "人民资讯",
-      "url": "https://mini.eastday.com/mobile/220305101748859291870.html",
-      "thumbnail_pic_s": "https://dfzximg02.dftoutiao.com/news/20220305/20220305101748_9b264bd7638dc05dbf6f1b4058c709ad_1_mwpm_03201609.jpeg",
-      "thumbnail_pic_s02": "https://dfzximg02.dftoutiao.com/news/20220305/20220305101748_9b264bd7638dc05dbf6f1b4058c709ad_2_mwpm_03201609.jpeg",
-      "is_content": "1"
-    }
-  ]
-  // db.query(`select * from ceshi where id=${id}`, (err, results) => {
-  //   if (err) return console.log(err.message);
-  //   let dataString = JSON.stringify(results);
-  //   let data = JSON.parse(dataString);
-  //   console.log(data);
-  //   usersList = data;
-  //   return res.send(usersList);
-  // }) 
-  data.map((item, index) => {
-    db.query(`insert into news (title, date, category, author_name, url ,uniquekey) values
-     ('${item.title}', '${item.date}','${item.category}','${item.author_name}','${item.url}', '${item.uniquekey}')`, (err, results) => {
-      if (err) console.log(err);
-      console.log(results+"插入成功");
-    })
-  })
+  let newsList;
+  db.query(`select * from news`, (err, results) => {
+    if (err) return console.log(err.message);
+    let dataString = JSON.stringify(results);
+    let data = JSON.parse(dataString);
+    console.log(data);
+    newsList = data;
+    return res.send(newsList);
+  }) 
   
 })
 
